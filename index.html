@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTTP-серверы — главная</title>
+  <meta name="description" content="Учебный проект про HTTP-серверы Nginx и Apache и языки программирования на сервере.">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://mincss.com/entireframework.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap header__row">
+    <a href="index.html" class="header__logo">
+      <img src="img/logo.svg" srcset="img/logo.svg 1x, img/logo-big.svg 2x"
+           alt="Логотип проекта" title="HTTP-серверы" width="36" height="36">
+      HTTP-серверы
+    </a>
+
+    <button class="header__burger" type="button" aria-label="Открыть меню">☰</button>
+
+    <nav aria-label="Основное меню">
+      <ul class="menu">
+        <li><a class="menu__link" href="index.html">Главная</a></li>
+        <li><a class="menu__link" href="nginx.html">Nginx</a></li>
+        <li><a class="menu__link" href="apache.html">Apache</a></li>
+        <li><a class="menu__link" href="comparison.html">Сравнение</a></li>
+        <li><a class="menu__link" href="languages.html">Языки</a></li>
+        <li><a class="menu__link" href="setup.html">Установка</a></li>
+        <li><a class="menu__link" href="security.html">Безопасность</a></li>
+        <li><a class="menu__link" href="faq.html">FAQ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="layout">
+
+    <main>
+      <section class="hello">
+        <h1>HTTP-серверы и языки программирования</h1>
+        <p>Учебный сайт о том, как работают веб-серверы Nginx и Apache,
+           чем они отличаются и как связаны с языками программирования.</p>
+        <a href="nginx.html" class="btn">Про Nginx</a>
+        <a href="comparison.html" class="btn btn-red">Сравнение</a>
+      </section>
+
+      <article class="box">
+        <h2>Что такое HTTP-сервер</h2>
+        <p><strong>HTTP-сервер</strong> — это программа, которая принимает запросы
+           от браузера и отдаёт ответ: HTML-страницу, картинку или другой файл.
+           Именно сервер первым встречает запрос пользователя.</p>
+
+        <p>Самые популярные веб-серверы — <strong>Nginx</strong> и
+           <strong>Apache</strong>. Вместе они обслуживают больше половины
+           всех сайтов в интернете.</p>
+
+        <h3>Что делает веб-сервер</h3>
+        <ul>
+          <li>принимает HTTP-запрос от клиента;</li>
+          <li>отдаёт статические файлы (HTML, CSS, картинки);</li>
+          <li>передаёт запросы приложению (PHP, Python, Node.js);</li>
+          <li>шифрует соединение (HTTPS);</li>
+          <li>ведёт журналы доступа и ошибок.</li>
+        </ul>
+
+        <h3>Краткая история</h3>
+        <ol>
+          <li>1990 — Тим Бернерс-Ли создал первый веб-сервер.</li>
+          <li>1991 — появился протокол HTTP/0.9.</li>
+          <li>1995 — вышел Apache HTTP Server.</li>
+          <li>1997 — принят HTTP/1.1.</li>
+          <li>2004 — Игорь Сысоев выпустил Nginx.</li>
+          <li>2015 — стандартизирован HTTP/2.</li>
+        </ol>
+
+        <figure class="pic">
+          <img src="img/http.svg"
+               alt="Шкала с версиями HTTP: 0.9, 1.0, 1.1, 2 и 3"
+               title="Версии HTTP"
+               width="700" height="200" loading="lazy">
+          <figcaption>Рис. 1. История развития протокола HTTP.</figcaption>
+        </figure>
+
+        <div class="info">
+          Веб-сервер сам не выполняет код приложения — он передаёт запрос
+          обработчику на PHP, Python или Node.js. Об этом — в разделе
+          <a href="languages.html">«Языки программирования»</a>.
+        </div>
+      </article>
+
+      <section class="box">
+        <h2>С чего начать</h2>
+        <ul>
+          <li><a href="nginx.html">Nginx</a> — архитектура и настройка.</li>
+          <li><a href="apache.html">Apache</a> — модули и .htaccess.</li>
+          <li><a href="comparison.html">Сравнение</a> — какой сервер выбрать.</li>
+          <li><a href="setup.html">Установка</a> — пошаговая инструкция.</li>
+        </ul>
+      </section>
+    </main>
+
+    <aside class="side">
+      <div class="side__block">
+        <h2 class="side__title">Разделы</h2>
+        <ul class="side__list">
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="languages.html">Языки</a></li>
+          <li><a href="setup.html">Установка</a></li>
+          <li><a href="security.html">Безопасность</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="banner">
+        <p>Не знаете, какой сервер выбрать?</p>
+        <a href="comparison.html" class="btn">Смотреть сравнение</a>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__row">
+      <div>
+        <h2 class="footer__title">О проекте</h2>
+        <p>Учебный проект по теме «HTTP-серверы и языки программирования».</p>
+      </div>
+      <div>
+        <h2 class="footer__title">Разделы</h2>
+        <ul class="footer__list">
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__title">Контакты</h2>
+        <ul class="footer__list">
+          <li>E-mail: <a href="mailto:parel.hight@yandex.ru">parel.hight@yandex.ru</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2025</span> HTTP-серверы</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

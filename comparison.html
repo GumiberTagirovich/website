@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Сравнение Nginx и Apache</title>
+  <meta name="description" content="Чем отличаются Nginx и Apache, какой сервер выбрать.">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://mincss.com/entireframework.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap header__row">
+    <a href="index.html" class="header__logo">
+      <img src="img/logo.svg" srcset="img/logo.svg 1x, img/logo-big.svg 2x"
+           alt="Логотип проекта" title="HTTP-серверы" width="36" height="36">
+      HTTP-серверы
+    </a>
+    <button class="header__burger" type="button" aria-label="Открыть меню">☰</button>
+    <nav aria-label="Основное меню">
+      <ul class="menu">
+        <li><a class="menu__link" href="index.html">Главная</a></li>
+        <li><a class="menu__link" href="nginx.html">Nginx</a></li>
+        <li><a class="menu__link" href="apache.html">Apache</a></li>
+        <li><a class="menu__link" href="comparison.html">Сравнение</a></li>
+        <li><a class="menu__link" href="languages.html">Языки</a></li>
+        <li><a class="menu__link" href="setup.html">Установка</a></li>
+        <li><a class="menu__link" href="security.html">Безопасность</a></li>
+        <li><a class="menu__link" href="faq.html">FAQ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="layout">
+
+    <main>
+      <article class="box">
+        <h1>Сравнение Nginx и Apache</h1>
+        <p>Оба сервера решают одну задачу — обслуживают HTTP-запросы.
+           Но делают это по-разному, поэтому подходят для разных случаев.</p>
+
+        <figure class="pic">
+          <img src="img/speed.svg"
+               alt="Диаграмма сравнения скорости Nginx и Apache"
+               title="Сравнение скорости"
+               width="600" height="300" loading="lazy">
+          <figcaption>Рис. 1. Условное сравнение скорости на статике.</figcaption>
+        </figure>
+
+        <h2>Таблица различий</h2>
+        <div class="table-wrap">
+          <table>
+            <caption>Таблица 1. Nginx и Apache: сравнение</caption>
+            <thead>
+              <tr>
+                <th scope="col">Что сравниваем</th>
+                <th scope="col">Nginx</th>
+                <th scope="col">Apache</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Модель работы</td>
+                <td>Событийная</td>
+                <td>Процессы и потоки</td>
+              </tr>
+              <tr>
+                <td>Память</td>
+                <td>Мало</td>
+                <td>Больше</td>
+              </tr>
+              <tr>
+                <td>Статика</td>
+                <td>Очень быстро</td>
+                <td>Хорошо</td>
+              </tr>
+              <tr>
+                <td>Динамика</td>
+                <td>Через FastCGI/proxy</td>
+                <td>Модули (mod_php)</td>
+              </tr>
+              <tr>
+                <td>Конфиг</td>
+                <td>Один файл</td>
+                <td>Файл + .htaccess</td>
+              </tr>
+              <tr>
+                <td>Сложность</td>
+                <td>Средняя</td>
+                <td>Простая</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Когда выбирают Nginx</h2>
+        <ul>
+          <li>много одновременных посетителей;</li>
+          <li>много статики и медиафайлов;</li>
+          <li>нужен обратный прокси;</li>
+          <li>микросервисы с несколькими бэкендами.</li>
+        </ul>
+
+        <h2>Когда выбирают Apache</h2>
+        <ul>
+          <li>нужны <code>.htaccess</code>;</li>
+          <li>используются особые модули;</li>
+          <li>старый сайт на <code>mod_php</code>;</li>
+          <li>важна простота настройки.</li>
+        </ul>
+
+        <h2>Оба вместе</h2>
+        <p>Часто ставят Nginx «на входе», а Apache — позади. Nginx отдаёт
+           статику, а динамику передаёт Apache.</p>
+
+        <pre><code># Nginx как фронтенд
+server {
+    listen 80;
+    server_name example.com;
+
+    location /static/ {
+        root /var/www/example;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8080;   # тут Apache
+        proxy_set_header Host $host;
+    }
+}</code></pre>
+
+        <div class="info">
+          Такая связка даёт скорость Nginx на статике и гибкость
+          Apache на динамике.
+        </div>
+      </article>
+    </main>
+
+    <aside class="side">
+      <div class="side__block">
+        <h2 class="side__title">Разделы</h2>
+        <ul class="side__list">
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="languages.html">Языки</a></li>
+          <li><a href="setup.html">Установка</a></li>
+          <li><a href="security.html">Безопасность</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="banner">
+        <p>Как связать сервер с языком программирования?</p>
+        <a href="languages.html" class="btn">Про языки</a>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__row">
+      <div>
+        <h2 class="footer__title">О проекте</h2>
+        <p>Учебный проект по теме «HTTP-серверы и языки программирования».</p>
+      </div>
+      <div>
+        <h2 class="footer__title">Разделы</h2>
+        <ul class="footer__list">
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__title">Контакты</h2>
+        <ul class="footer__list">
+          <li>E-mail: <a href="mailto:parel.hight@yandex.ru">parel.hight@yandex.ru</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2025</span> HTTP-серверы</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

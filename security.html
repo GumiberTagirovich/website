@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Безопасность веб-сервера</title>
+  <meta name="description" content="HTTPS, HSTS, ограничение запросов и типичные ошибки настройки.">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://mincss.com/entireframework.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap header__row">
+    <a href="index.html" class="header__logo">
+      <img src="img/logo.svg" srcset="img/logo.svg 1x, img/logo-big.svg 2x"
+           alt="Логотип проекта" title="HTTP-серверы" width="36" height="36">
+      HTTP-серверы
+    </a>
+    <button class="header__burger" type="button" aria-label="Открыть меню">☰</button>
+    <nav aria-label="Основное меню">
+      <ul class="menu">
+        <li><a class="menu__link" href="index.html">Главная</a></li>
+        <li><a class="menu__link" href="nginx.html">Nginx</a></li>
+        <li><a class="menu__link" href="apache.html">Apache</a></li>
+        <li><a class="menu__link" href="comparison.html">Сравнение</a></li>
+        <li><a class="menu__link" href="languages.html">Языки</a></li>
+        <li><a class="menu__link" href="setup.html">Установка</a></li>
+        <li><a class="menu__link" href="security.html">Безопасность</a></li>
+        <li><a class="menu__link" href="faq.html">FAQ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="layout">
+
+    <main>
+      <article class="box">
+        <h1>Безопасность веб-сервера</h1>
+        <p>Веб-сервер первым принимает запросы из интернета, поэтому
+           он должен быть хорошо защищён. Ниже — базовый набор мер.</p>
+
+        <h2>1. HTTPS</h2>
+        <p>Сайт должен работать по HTTPS. Проще всего получить бесплатный
+           сертификат Let's Encrypt через Certbot.</p>
+        <pre><code>sudo apt install certbot python3-certbot-nginx -y
+sudo certbot --nginx -d example.com
+sudo certbot renew --dry-run</code></pre>
+
+        <h2>2. Редирект на HTTPS и заголовки</h2>
+        <pre><code>server {
+    listen 80;
+    server_name example.com;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name example.com;
+
+    ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+}</code></pre>
+
+        <h2>3. Ограничение запросов</h2>
+        <p>Помогает против перебора паролей и простых атак:</p>
+        <pre><code>limit_req_zone $binary_remote_addr zone=login:10m rate=5r/m;
+
+location = /login {
+    limit_req zone=login burst=3 nodelay;
+    proxy_pass http://127.0.0.1:8000;
+}</code></pre>
+
+        <h2>4. Частые ошибки</h2>
+        <div class="table-wrap">
+          <table>
+            <caption>Таблица 1. Опасные настройки</caption>
+            <thead>
+              <tr>
+                <th scope="col">Ошибка</th>
+                <th scope="col">Чем опасна</th>
+                <th scope="col">Как исправить</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>autoindex on;</code></td>
+                <td>Виден список файлов</td>
+                <td>Отключить</td>
+              </tr>
+              <tr>
+                <td>Версия сервера в заголовке</td>
+                <td>Помогает подобрать атаку</td>
+                <td><code>server_tokens off;</code></td>
+              </tr>
+              <tr>
+                <td>Открытый <code>.git</code></td>
+                <td>Утечка исходников</td>
+                <td>Запретить доступ</td>
+              </tr>
+              <tr>
+                <td>Устаревший TLS 1.0/1.1</td>
+                <td>Известные уязвимости</td>
+                <td>Оставить только 1.2 и 1.3</td>
+              </tr>
+              <tr>
+                <td>Права 777 на файлы</td>
+                <td>Файлы можно подменить</td>
+                <td>Каталоги 755, файлы 644</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>5. Чек-лист</h2>
+        <ul>
+          <li>включён HTTPS и редирект с HTTP;</li>
+          <li>сертификат обновляется автоматически;</li>
+          <li>версия сервера скрыта;</li>
+          <li>закрыт доступ к служебным файлам;</li>
+          <li>настроены лимиты запросов;</li>
+          <li>просматриваются логи;</li>
+          <li>обновления ставятся автоматически.</li>
+        </ul>
+      </article>
+    </main>
+
+    <aside class="side">
+      <div class="side__block">
+        <h2 class="side__title">Разделы</h2>
+        <ul class="side__list">
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="languages.html">Языки</a></li>
+          <li><a href="setup.html">Установка</a></li>
+          <li><a href="security.html">Безопасность</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="banner">
+        <p>Остались вопросы?</p>
+        <a href="faq.html" class="btn">Открыть FAQ</a>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__row">
+      <div>
+        <h2 class="footer__title">О проекте</h2>
+        <p>Учебный проект по теме «HTTP-серверы и языки программирования».</p>
+      </div>
+      <div>
+        <h2 class="footer__title">Разделы</h2>
+        <ul class="footer__list">
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__title">Контакты</h2>
+        <ul class="footer__list">
+          <li>E-mail: <a href="mailto:parel.hight@yandex.ru">parel.hight@yandex.ru</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> HTTP-серверы</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

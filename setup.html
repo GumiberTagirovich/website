@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Установка Nginx и Apache</title>
+  <meta name="description" content="Пошаговая установка Nginx и Apache на Ubuntu.">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://mincss.com/entireframework.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap header__row">
+    <a href="index.html" class="header__logo">
+      <img src="img/logo.svg" srcset="img/logo.svg 1x, img/logo-big.svg 2x"
+           alt="Логотип проекта" title="HTTP-серверы" width="36" height="36">
+      HTTP-серверы
+    </a>
+    <button class="header__burger" type="button" aria-label="Открыть меню">☰</button>
+    <nav aria-label="Основное меню">
+      <ul class="menu">
+        <li><a class="menu__link" href="index.html">Главная</a></li>
+        <li><a class="menu__link" href="nginx.html">Nginx</a></li>
+        <li><a class="menu__link" href="apache.html">Apache</a></li>
+        <li><a class="menu__link" href="comparison.html">Сравнение</a></li>
+        <li><a class="menu__link" href="languages.html">Языки</a></li>
+        <li><a class="menu__link" href="setup.html">Установка</a></li>
+        <li><a class="menu__link" href="security.html">Безопасность</a></li>
+        <li><a class="menu__link" href="faq.html">FAQ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="layout">
+
+    <main>
+      <article class="box">
+        <h1>Установка и настройка</h1>
+        <p>Инструкция для Ubuntu 22.04. Команды выполняются от имени
+           пользователя с правами <code>sudo</code>.</p>
+
+        <h2>Шаг 1. Установка Nginx</h2>
+
+        <details class="acc" open>
+          <summary>Команды установки</summary>
+          <pre><code>sudo apt update
+sudo apt install nginx -y
+sudo systemctl enable --now nginx
+sudo systemctl status nginx</code></pre>
+          <p>После этого откройте в браузере IP сервера — появится
+             страница-заглушка Nginx.</p>
+        </details>
+
+        <h2>Шаг 2. Виртуальный хост</h2>
+
+        <details class="acc">
+          <summary>Создание конфигурации сайта</summary>
+          <pre><code>sudo mkdir -p /var/www/example.com/html
+sudo chown -R $USER:$USER /var/www/example.com
+sudo nano /etc/nginx/sites-available/example.com</code></pre>
+          <p>Содержимое файла:</p>
+          <pre><code>server {
+    listen 80;
+    server_name example.com;
+    root /var/www/example.com/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}</code></pre>
+          <p>Включаем сайт и перезагружаем сервер:</p>
+          <pre><code>sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx</code></pre>
+        </details>
+
+        <h2>Шаг 3. Apache</h2>
+
+        <details class="acc">
+          <summary>Установка Apache</summary>
+          <pre><code>sudo apt install apache2 -y
+sudo systemctl enable --now apache2</code></pre>
+          <div class="info warn">
+            Если Nginx уже занял порт 80, сначала остановите его:
+            <code>sudo systemctl stop nginx</code>.
+          </div>
+        </details>
+
+        <h2>Шаг 4. PHP</h2>
+
+        <details class="acc">
+          <summary>PHP-FPM для Nginx</summary>
+          <pre><code>sudo apt install php8.2-fpm -y</code></pre>
+          <p>В конфиге сайта добавить:</p>
+          <pre><code>location ~ \.php$ {
+    include        fastcgi_params;
+    fastcgi_pass   unix:/run/php/php8.2-fpm.sock;
+    fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+}</code></pre>
+        </details>
+
+        <details class="acc">
+          <summary>PHP для Apache</summary>
+          <pre><code>sudo apt install libapache2-mod-php8.2 -y
+sudo a2enmod php8.2
+sudo systemctl restart apache2</code></pre>
+        </details>
+
+        <h2>Основные команды</h2>
+        <div class="table-wrap">
+          <table>
+            <caption>Таблица 1. Управление серверами</caption>
+            <thead>
+              <tr>
+                <th scope="col">Действие</th>
+                <th scope="col">Nginx</th>
+                <th scope="col">Apache</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Проверка конфига</td>
+                <td><code>nginx -t</code></td>
+                <td><code>apachectl configtest</code></td>
+              </tr>
+              <tr>
+                <td>Перезапуск</td>
+                <td><code>systemctl restart nginx</code></td>
+                <td><code>systemctl restart apache2</code></td>
+              </tr>
+              <tr>
+                <td>Логи</td>
+                <td><code>/var/log/nginx/</code></td>
+                <td><code>/var/log/apache2/</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </main>
+
+    <aside class="side">
+      <div class="side__block">
+        <h2 class="side__title">Разделы</h2>
+        <ul class="side__list">
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="languages.html">Языки</a></li>
+          <li><a href="setup.html">Установка</a></li>
+          <li><a href="security.html">Безопасность</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="banner">
+        <p>Не забудьте про безопасность</p>
+        <a href="security.html" class="btn">К безопасности</a>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__row">
+      <div>
+        <h2 class="footer__title">О проекте</h2>
+        <p>Учебный проект по теме «HTTP-серверы и языки программирования».</p>
+      </div>
+      <div>
+        <h2 class="footer__title">Разделы</h2>
+        <ul class="footer__list">
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__title">Контакты</h2>
+        <ul class="footer__list">
+          <li>E-mail: <a href="mailto:parel.hight@yandex.ru">parel.hight@yandex.ru</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> HTTP-серверы</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

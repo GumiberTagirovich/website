@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Частые вопросы</title>
+  <meta name="description" content="Ответы на частые вопросы о веб-серверах и HTTP.">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://mincss.com/entireframework.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap header__row">
+    <a href="index.html" class="header__logo">
+      <img src="img/logo.svg" srcset="img/logo.svg 1x, img/logo-big.svg 2x"
+           alt="Логотип проекта" title="HTTP-серверы" width="36" height="36">
+      HTTP-серверы
+    </a>
+    <button class="header__burger" type="button" aria-label="Открыть меню">☰</button>
+    <nav aria-label="Основное меню">
+      <ul class="menu">
+        <li><a class="menu__link" href="index.html">Главная</a></li>
+        <li><a class="menu__link" href="nginx.html">Nginx</a></li>
+        <li><a class="menu__link" href="apache.html">Apache</a></li>
+        <li><a class="menu__link" href="comparison.html">Сравнение</a></li>
+        <li><a class="menu__link" href="languages.html">Языки</a></li>
+        <li><a class="menu__link" href="setup.html">Установка</a></li>
+        <li><a class="menu__link" href="security.html">Безопасность</a></li>
+        <li><a class="menu__link" href="faq.html">FAQ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="layout">
+
+    <main>
+      <article class="box">
+        <h1>Частые вопросы</h1>
+
+        <h2>Общие</h2>
+
+        <details class="acc" open>
+          <summary>Что такое обратный прокси?</summary>
+          <p>Это сервер, который принимает запросы клиентов и перенаправляет
+             их внутренним приложениям. Клиент думает, что общается с сайтом
+             напрямую. Прокси скрывает структуру, кэширует ответы и делает
+             балансировку.</p>
+        </details>
+
+        <details class="acc">
+          <summary>Чем Nginx отличается от Apache?</summary>
+          <p>Nginx использует событийную модель и обрабатывает много соединений
+             в одном процессе. Apache — процессы и потоки. Поэтому Nginx
+             быстрее на статике и экономичнее, а Apache гибче за счёт модулей
+             и <code>.htaccess</code>.</p>
+        </details>
+
+        <details class="acc">
+          <summary>Можно ли ставить оба сервера вместе?</summary>
+          <p>Да. Nginx ставят «на входе», Apache — позади. Nginx отдаёт
+             статику, Apache — динамику. См. раздел
+             <a href="comparison.html">«Сравнение»</a>.</p>
+        </details>
+
+        <details class="acc">
+          <summary>Нужен ли веб-сервер, если есть Node.js?</summary>
+          <p>Node.js может слушать порт сам, но перед ним обычно ставят Nginx:
+             он берёт на себя SSL, сжатие, кэш и статику, оставляя Node
+             только бизнес-логику.</p>
+        </details>
+
+        <h2>Версии HTTP</h2>
+        <div class="table-wrap">
+          <table>
+            <caption>Таблица 1. Версии HTTP</caption>
+            <thead>
+              <tr>
+                <th scope="col">Версия</th>
+                <th scope="col">Год</th>
+                <th scope="col">Особенность</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>HTTP/0.9</td>
+                <td>1991</td>
+                <td>Только GET, только HTML</td>
+              </tr>
+              <tr>
+                <td>HTTP/1.0</td>
+                <td>1996</td>
+                <td>Появились заголовки</td>
+              </tr>
+              <tr>
+                <td>HTTP/1.1</td>
+                <td>1997</td>
+                <td>Keep-alive, виртуальные хосты</td>
+              </tr>
+              <tr>
+                <td>HTTP/2</td>
+                <td>2015</td>
+                <td>Мультиплексирование</td>
+              </tr>
+              <tr>
+                <td>HTTP/3</td>
+                <td>2022</td>
+                <td>Работает поверх QUIC (UDP)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Коды ответа</h2>
+        <ul>
+          <li><strong>200</strong> — OK;</li>
+          <li><strong>301/302</strong> — редирект;</li>
+          <li><strong>403</strong> — доступ запрещён;</li>
+          <li><strong>404</strong> — не найдено;</li>
+          <li><strong>500</strong> — ошибка в приложении;</li>
+          <li><strong>502</strong> — бэкенд недоступен;</li>
+          <li><strong>504</strong> — бэкенд не ответил вовремя.</li>
+        </ul>
+      </article>
+    </main>
+
+    <aside class="side">
+      <div class="side__block">
+        <h2 class="side__title">Разделы</h2>
+        <ul class="side__list">
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="languages.html">Языки</a></li>
+          <li><a href="setup.html">Установка</a></li>
+          <li><a href="security.html">Безопасность</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__row">
+      <div>
+        <h2 class="footer__title">О проекте</h2>
+        <p>Учебный проект по теме «HTTP-серверы и языки программирования».</p>
+      </div>
+      <div>
+        <h2 class="footer__title">Разделы</h2>
+        <ul class="footer__list">
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__title">Контакты</h2>
+        <ul class="footer__list">
+          <li>E-mail: <a href="mailto:parel.hight@yandex.ru">parel.hight@yandex.ru</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2025</span> HTTP-серверы</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

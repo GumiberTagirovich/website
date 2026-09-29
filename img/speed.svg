@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <rect width="600" height="300" fill="#fff"/>
+  <text x="300" y="30" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#222">Скорость обработки запросов</text>
+
+  <line x1="80" y1="250" x2="550" y2="250" stroke="#556" stroke-width="2"/>
+  <line x1="80" y1="60" x2="80" y2="250" stroke="#556" stroke-width="2"/>
+
+  <text x="60" y="255" text-anchor="end" font-family="Arial" font-size="12">0</text>
+  <text x="60" y="195" text-anchor="end" font-family="Arial" font-size="12">5k</text>
+  <text x="60" y="130" text-anchor="end" font-family="Arial" font-size="12">10k</text>
+  <text x="60" y="65" text-anchor="end" font-family="Arial" font-size="12">15k</text>
+
+  <rect x="150" y="100" width="80" height="150" fill="#1a5c8a"/>
+  <text x="190" y="90" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">Nginx</text>
+
+  <rect x="320" y="165" width="80" height="85" fill="#d94f3d"/>
+  <text x="360" y="155" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">Apache</text>
+
+  <text x="300" y="285" text-anchor="middle" font-family="Arial" font-size="12" fill="#667">Условный тест, статические файлы</text>
+</svg>

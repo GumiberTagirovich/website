@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 200">
+  <rect width="700" height="200" fill="#f6f8fa"/>
+  <text x="350" y="30" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#222">История HTTP</text>
+
+  <line x1="60" y1="120" x2="640" y2="120" stroke="#556" stroke-width="2"/>
+
+  <circle cx="120" cy="120" r="8" fill="#1a5c8a"/>
+  <text x="120" y="100" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">0.9</text>
+  <text x="120" y="150" text-anchor="middle" font-family="Arial" font-size="12" fill="#667">1991</text>
+
+  <circle cx="260" cy="120" r="8" fill="#1a5c8a"/>
+  <text x="260" y="100" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">1.0</text>
+  <text x="260" y="150" text-anchor="middle" font-family="Arial" font-size="12" fill="#667">1996</text>
+
+  <circle cx="400" cy="120" r="8" fill="#1a5c8a"/>
+  <text x="400" y="100" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">1.1</text>
+  <text x="400" y="150" text-anchor="middle" font-family="Arial" font-size="12" fill="#667">1997</text>
+
+  <circle cx="530" cy="120" r="8" fill="#d94f3d"/>
+  <text x="530" y="100" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">2</text>
+  <text x="530" y="150" text-anchor="middle" font-family="Arial" font-size="12" fill="#667">2015</text>
+
+  <circle cx="620" cy="120" r="8" fill="#d94f3d"/>
+  <text x="620" y="100" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">3</text>
+  <text x="620" y="150" text-anchor="middle" font-family="Arial" font-size="12" fill="#667">2022</text>
+</svg>

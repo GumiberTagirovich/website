@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nginx — архитектура и настройка</title>
+  <meta name="description" content="Архитектура Nginx, событийная модель, примеры конфигурации.">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://mincss.com/entireframework.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap header__row">
+    <a href="index.html" class="header__logo">
+      <img src="img/logo.svg" srcset="img/logo.svg 1x, img/logo-big.svg 2x"
+           alt="Логотип проекта" title="HTTP-серверы" width="36" height="36">
+      HTTP-серверы
+    </a>
+    <button class="header__burger" type="button" aria-label="Открыть меню">☰</button>
+    <nav aria-label="Основное меню">
+      <ul class="menu">
+        <li><a class="menu__link" href="index.html">Главная</a></li>
+        <li><a class="menu__link" href="nginx.html">Nginx</a></li>
+        <li><a class="menu__link" href="apache.html">Apache</a></li>
+        <li><a class="menu__link" href="comparison.html">Сравнение</a></li>
+        <li><a class="menu__link" href="languages.html">Языки</a></li>
+        <li><a class="menu__link" href="setup.html">Установка</a></li>
+        <li><a class="menu__link" href="security.html">Безопасность</a></li>
+        <li><a class="menu__link" href="faq.html">FAQ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="layout">
+
+    <main>
+      <article class="box">
+        <h1>Веб-сервер Nginx</h1>
+        <p><strong>Nginx</strong> — свободный веб-сервер и обратный прокси,
+           созданный Игорем Сысоевым в 2004 году. Он был придуман как решение
+           проблемы Apache: тот плохо справлялся с большим числом
+           одновременных соединений.</p>
+
+        <h2>Как устроен Nginx</h2>
+        <p>Nginx использует <em>событийную модель</em>. Запускается один
+           главный процесс (<code>master</code>) и несколько рабочих
+           (<code>worker</code>). Каждый worker умеет обслуживать тысячи
+           соединений одновременно, не создавая отдельный процесс под каждое.</p>
+
+        <figure class="pic">
+          <img src="img/nginx.svg"
+               alt="Схема: клиенты обращаются к Nginx, он передаёт запросы приложению"
+               title="Архитектура Nginx"
+               width="600" height="300" loading="lazy">
+          <figcaption>Рис. 1. Схема работы Nginx.</figcaption>
+        </figure>
+
+        <h3>Плюсы Nginx</h3>
+        <ul>
+          <li>быстро обрабатывает много соединений;</li>
+          <li>мало расходует память;</li>
+          <li>хорошо отдаёт статику;</li>
+          <li>умеет балансировать нагрузку;</li>
+          <li>перезагружает конфиг без простоя.</li>
+        </ul>
+
+        <h3>Пример конфигурации</h3>
+        <pre><code>server {
+    listen       80;
+    server_name  example.com;
+
+    root   /var/www/example;
+    index  index.html index.php;
+
+    # статические файлы
+    location ~* \.(jpg|png|css|js)$ {
+        expires 30d;
+    }
+
+    # передача PHP в PHP-FPM
+    location ~ \.php$ {
+        include        fastcgi_params;
+        fastcgi_pass   unix:/run/php/php8.2-fpm.sock;
+        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}</code></pre>
+
+        <h3>Балансировка нагрузки</h3>
+        <pre><code>upstream backend {
+    server 10.0.0.1:8080;
+    server 10.0.0.2:8080;
+}
+
+server {
+    listen 80;
+    location / {
+        proxy_pass http://backend;
+    }
+}</code></pre>
+
+        <div class="info">
+          Часто Nginx ставят перед Apache: Nginx отдаёт статику,
+          Apache — динамику. Подробнее в разделе
+          <a href="comparison.html">«Сравнение»</a>.
+        </div>
+      </article>
+    </main>
+
+    <aside class="side">
+      <div class="side__block">
+        <h2 class="side__title">Разделы</h2>
+        <ul class="side__list">
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="languages.html">Языки</a></li>
+          <li><a href="setup.html">Установка</a></li>
+          <li><a href="security.html">Безопасность</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="banner">
+        <p>Дальше — про Apache</p>
+        <a href="apache.html" class="btn">К Apache</a>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__row">
+      <div>
+        <h2 class="footer__title">О проекте</h2>
+        <p>Учебный проект по теме «HTTP-серверы и языки программирования».</p>
+      </div>
+      <div>
+        <h2 class="footer__title">Разделы</h2>
+        <ul class="footer__list">
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__title">Контакты</h2>
+        <ul class="footer__list">
+          <li>E-mail: <a href="mailto:parel.hight@yandex.ru">parel.hight@yandex.ru</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2025</span> HTTP-серверы</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

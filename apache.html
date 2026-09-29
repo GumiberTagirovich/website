@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apache — модули и .htaccess</title>
+  <meta name="description" content="Apache HTTP Server: модульная архитектура, MPM, файлы .htaccess.">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://mincss.com/entireframework.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap header__row">
+    <a href="index.html" class="header__logo">
+      <img src="img/logo.svg" srcset="img/logo.svg 1x, img/logo-big.svg 2x"
+           alt="Логотип проекта" title="HTTP-серверы" width="36" height="36">
+      HTTP-серверы
+    </a>
+    <button class="header__burger" type="button" aria-label="Открыть меню">☰</button>
+    <nav aria-label="Основное меню">
+      <ul class="menu">
+        <li><a class="menu__link" href="index.html">Главная</a></li>
+        <li><a class="menu__link" href="nginx.html">Nginx</a></li>
+        <li><a class="menu__link" href="apache.html">Apache</a></li>
+        <li><a class="menu__link" href="comparison.html">Сравнение</a></li>
+        <li><a class="menu__link" href="languages.html">Языки</a></li>
+        <li><a class="menu__link" href="setup.html">Установка</a></li>
+        <li><a class="menu__link" href="security.html">Безопасность</a></li>
+        <li><a class="menu__link" href="faq.html">FAQ</a></li>
+
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="layout">
+
+    <main>
+      <article class="box">
+        <h1>Apache HTTP Server</h1>
+        <p><strong>Apache</strong> — один из самых старых веб-серверов,
+           выпущен в 1995 году. Его развивает сообщество Apache Software
+           Foundation. Название связывают с фразой «a patchy server»
+           (сервер из заплаток).</p>
+
+        <h2>Модульная архитектура</h2>
+        <p>Весь функционал Apache собирается из <em>модулей</em>. Их можно
+           подключать и отключать. Благодаря этому сервер очень гибкий:
+           любую задачу решает отдельный модуль.</p>
+
+        <figure class="pic">
+          <img src="img/apache.svg"
+               alt="Схема: клиенты обращаются к Apache, работают дочерние процессы и модули"
+               title="Архитектура Apache"
+               width="600" height="300" loading="lazy">
+          <figcaption>Рис. 1. Схема работы Apache.</figcaption>
+        </figure>
+
+        <h3>Известные модули</h3>
+        <ul>
+          <li><code>mod_ssl</code> — поддержка HTTPS;</li>
+          <li><code>mod_rewrite</code> — переписывание URL;</li>
+          <li><code>mod_proxy</code> — проксирование;</li>
+          <li><code>mod_php</code> — встроенный PHP;</li>
+          <li><code>mod_deflate</code> — сжатие gzip.</li>
+        </ul>
+
+        <h2>Режимы работы (MPM)</h2>
+        <p>Apache умеет работать по-разному. Режим (MPM) выбирается в конфиге
+           и влияет на производительность.</p>
+
+        <div class="table-wrap">
+          <table>
+            <caption>Таблица 1. Режимы Apache</caption>
+            <thead>
+              <tr>
+                <th scope="col">Режим</th>
+                <th scope="col">Как работает</th>
+                <th scope="col">Когда использовать</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>prefork</td>
+                <td>1 процесс на соединение</td>
+                <td>Старые модули, простые сайты</td>
+              </tr>
+              <tr>
+                <td>worker</td>
+                <td>Процессы + потоки</td>
+                <td>Смешанная нагрузка</td>
+              </tr>
+              <tr>
+                <td>event</td>
+                <td>Потоки + асинхронный keep-alive</td>
+                <td>Современные нагруженные сайты</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Файлы .htaccess</h2>
+        <p>Особенность Apache — можно менять настройки прямо в каталоге сайта
+           через файл <code>.htaccess</code>, без правки главного конфига.</p>
+
+        <pre><code># Включить ЧПУ
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L,QSA]
+
+# Запретить доступ к .git
+&lt;FilesMatch "^\.git"&gt;
+    Require all denied
+&lt;/FilesMatch&gt;</code></pre>
+
+        <div class="info warn">
+          <strong>Важно:</strong> Apache проверяет <code>.htaccess</code>
+           при каждом запросе — это замедляет работу. На больших проектах
+           настройки переносят в главный конфиг.
+        </div>
+      </article>
+    </main>
+
+    <aside class="side">
+      <div class="side__block">
+        <h2 class="side__title">Разделы</h2>
+        <ul class="side__list">
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="languages.html">Языки</a></li>
+          <li><a href="setup.html">Установка</a></li>
+          <li><a href="security.html">Безопасность</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="banner">
+        <p>Какой сервер лучше? Разбираемся в сравнении.</p>
+        <a href="comparison.html" class="btn">К сравнению</a>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__row">
+      <div>
+        <h2 class="footer__title">О проекте</h2>
+        <p>Учебный проект по теме «HTTP-серверы и языки программирования».</p>
+      </div>
+      <div>
+        <h2 class="footer__title">Разделы</h2>
+        <ul class="footer__list">
+          <li><a href="nginx.html">Nginx</a></li>
+          <li><a href="apache.html">Apache</a></li>
+          <li><a href="comparison.html">Сравнение</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__title">Контакты</h2>
+        <ul class="footer__list">
+          <li>E-mail: <a href="mailto:parel.hight@yandex.ru">parel.hight@yandex.ru</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2025</span> HTTP-серверы</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
